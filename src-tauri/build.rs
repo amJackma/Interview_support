@@ -1,7 +1,4 @@
 fn main() {
-    // Build tauri resources
-    tauri_build::build();
-
     // Windows icon compilation
     if cfg!(target_os = "windows") {
         let mut resources = winresource::WindowsResource::new();
