@@ -122,7 +122,10 @@ window.addEventListener("DOMContentLoaded", () => {
   if (refreshBtn) {
     refreshBtn.addEventListener("click", loadWindows);
   }
+  // Load windows immediately
   loadWindows();
+  // Auto-refresh windows every 2 seconds for real-time tabs display
+  setInterval(loadWindows, 2000);
 });
 
 // Make functions global for onclick handlers
