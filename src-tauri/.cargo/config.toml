@@ -1,0 +1,21 @@
+# Cargo configuration for Tushar
+
+[target.x86_64-pc-windows-msvc]
+# Static CRT linking for Windows - ensures portable .exe files
+# Users won't need Visual C++ runtime dependencies
+rustflags = [
+    "-C", "target-feature=+crt-static",
+    "-C", "link-args=/DEFAULTLIB:ucrt.lib /DEFAULTLIB:libvcruntime.lib libcmt.lib",
+    "-C", "link-args=/NODEFAULTLIB:libvcruntimed.lib /NODEFAULTLIB:vcruntime.lib /NODEFAULTLIB:vcruntimed.lib",
+    "-C", "link-args=/NODEFAULTLIB:libcmtd.lib /NODEFAULTLIB:msvcrt.lib /NODEFAULTLIB:msvcrtd.lib",
+    "-C", "link-args=/NODEFAULTLIB:libucrt.lib /NODEFAULTLIB:libucrtd.lib /NODEFAULTLIB:ucrtd.lib",
+]
+
+# Optional: Optimize release builds
+[profile.release]
+# Enable Link Time Optimization for smaller, faster binaries
+lto = true
+# Single thread compilation for deterministic results
+codegen-units = 1
+# Strip debug symbols for smaller distribution
+strip = true
