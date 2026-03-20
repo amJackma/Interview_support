@@ -10,10 +10,31 @@ echo  Tushar Installer Build Script
 echo ============================================
 echo.
 
-REM Check if Inno Setup is installed
-if not exist "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" (
-    echo ERROR: Inno Setup not found at default location
-    echo Please install Inno Setup from: https://jrsoftware.org/isdl.php
+REM Check if Inno Setup is installed (check multiple locations)
+set "ISCC_PATH="
+
+if exist "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" (
+    set "ISCC_PATH=C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+) else if exist "C:\Program Files\Inno Setup 6\ISCC.exe" (
+    set "ISCC_PATH=C:\Program Files\Inno Setup 6\ISCC.exe"
+) else if exist "C:\Users\%USERNAME%\AppData\Local\Programs\Inno Setup 6\ISCC.exe" (
+    set "ISCC_PATH=C:\Users\%USERNAME%\AppData\Local\Programs\Inno Setup 6\ISCC.exe"
+) else if exist "C:\Program Files (x86)\Inno Setup 5\ISCC.exe" (
+    set "ISCC_PATH=C:\Program Files (x86)\Inno Setup 5\ISCC.exe"
+) else if exist "C:\Program Files\Inno Setup 5\ISCC.exe" (
+    set "ISCC_PATH=C:\Program Files\Inno Setup 5\ISCC.exe"
+)
+
+if "%ISCC_PATH%"=="" (
+    echo ERROR: Inno Setup not found at default locations
+    echo.
+    echo Please install Inno Setup using one of these methods:
+    echo.
+    echo 1. Using Windows Package Manager:
+    echo    winget install JRSoftware.InnoSetup
+    echo.
+    echo 2. Manual download:
+    echo    https://jrsoftware.org/isdl.php
     echo.
     pause
     exit /b 1
@@ -51,7 +72,7 @@ REM Compile the installer
 echo.
 echo [3/3] Compiling Inno Setup installer...
 echo.
-"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /F"Tushar-2.0.0-Installer" /O"releases\installer" tushar_installer.iss
+"%ISCC_PATH%" /F"Tushar-2.0.0-Installer" /O"releases\installer" tushar_installer.iss
 
 if errorlevel 1 (
     echo.
