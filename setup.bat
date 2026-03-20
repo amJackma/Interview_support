@@ -1,19 +1,20 @@
 @echo off
-REM Tushar Project Setup Script for Windows
-REM This script automates the installation of all project requirements
+REM Tushar Window Hider - Setup & Distribution Script
+REM Advanced script for installation, building, and distribution
 
 setlocal enabledelayedexpansion
 color 0A
-title Tushar Project Setup
+title Tushar Window Hider - Setup & Build
 
 echo.
 echo ============================================
 echo   Tushar Window Hider - Setup Assistant
+echo   Compact screen capture hider for sharing
 echo ============================================
 echo.
 
 REM Check Node.js
-echo [1/5] Checking Node.js...
+echo [1/6] Checking Node.js...
 where node >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ Node.js not found!
@@ -27,7 +28,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 REM Check npm
-echo [2/5] Checking npm...
+echo [2/6] Checking npm...
 where npm >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ npm not found!
@@ -39,12 +40,11 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 REM Check Rust
-echo [3/5] Checking Rust...
+echo [3/6] Checking Rust...
 where cargo >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ Rust not found!
     echo    Install from: https://rustup.rs/
-    echo    Or run: irm https://rustup.rs ^| iex
     pause
     exit /b 1
 ) else (
@@ -52,18 +52,18 @@ if %ERRORLEVEL% NEQ 0 (
     echo ✅ Rust found: !RUST_VER!
 )
 
-REM Check Tauri CLI
-echo [4/5] Installing/Checking Tauri CLI...
-npm list -g @tauri-apps/cli >nul 2>nul
+REM Check Visual C++ Build Tools
+echo [4/6] Checking Visual C++ Build Tools...
+where cl.exe >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
-    echo    Installing Tauri CLI globally...
-    npm install -g @tauri-apps/cli@latest
-) else (
-    echo ✅ Tauri CLI already installed
+    echo ⚠️  Visual C++ Build Tools may not be installed
+    echo    This is needed for Windows API access
+    echo    Install from: https://visualstudio.microsoft.com/downloads/
+    echo    Choose "Desktop development with C++"
 )
 
 REM Install project dependencies
-echo [5/5] Installing project dependencies...
+echo [5/6] Installing project dependencies...
 call npm install
 if %ERRORLEVEL% NEQ 0 (
     echo ❌ npm install failed!
@@ -71,6 +71,7 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
+echo [6/6] Verifying Rust build...
 cd src-tauri
 call cargo check
 if %ERRORLEVEL% NEQ 0 (
@@ -86,18 +87,31 @@ echo ============================================
 echo   ✅ Setup Complete!
 echo ============================================
 echo.
-echo Next steps:
-echo   1. Run development server:
-echo      npm run tauri dev
+echo NEXT STEPS:
 echo.
-echo   2. Build for production:
-echo      npm run tauri build
+echo Development:
+echo   npm run tauri dev         - Start dev server
 echo.
-echo Documentation:
-echo   - REQUIREMENTS.md      - System requirements
-echo   - NODE_DEPENDENCIES.md - Frontend deps
-echo   - RUST_DEPENDENCIES.md - Backend deps
+echo Production Build:
+echo   npm run tauri build       - Create executables
 echo.
+echo After build, find distributions in:
+echo   src-tauri\target\release\tushar.exe
+echo   src-tauri\target\release\bundle\nsis\tushar_0.1.0_x64-setup.exe
+echo   src-tauri\target\release\bundle\msi\tushar_0.1.0_x64_en-US.msi
+echo.
+echo FEATURES:
+echo   ✓ Hide windows from screen captures
+echo   ✓ Real-time 2s auto-refresh tabs
+echo   ✓ Compact 480x600 window
+echo   ✓ Works with Zoom, Teams, Discord
+echo.
+echo DOCUMENTATION:
+echo   REQUIREMENTS.md          - System requirements
+echo   DISTRIBUTION_GUIDE.md    - How to distribute
+echo   ONBOARDING_CHECKLIST.md  - Launch checklist
+echo.
+pause
 echo ============================================
 echo.
 pause
