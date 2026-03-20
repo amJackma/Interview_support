@@ -1,3 +1,7 @@
+# Rust build artifacts
+src-tauri/target/
+Cargo.lock
+
 # Logs
 logs
 *.log
