@@ -1,0 +1,27 @@
+# Python dependencies for Tushar project
+# Install with: pip install -r requirements.txt
+
+# Currently, this project doesn't require Python for core functionality
+# (it's a Rust + Node.js/Tauri project)
+
+# However, if you want to use Python for development scripts, testing, or utilities:
+
+# Optional: For project documentation generation
+# sphinx>=6.0.0
+# sphinx-rtd-theme>=1.2.0
+
+# Optional: For code quality and linting
+# pylint>=2.17.0
+# black>=23.0.0
+# isort>=5.12.0
+# flake8>=6.0.0
+
+# Optional: For testing Python-based tools
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
+
+# Optional: For build automation
+# invoke>=2.0.0
+
+# To use any of these, uncomment them and run:
+# pip install -r requirements.txt
