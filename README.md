@@ -12,18 +12,26 @@ A fast, lightweight CLI tool for Windows that hides and shows windows using keyb
 
 ## Installation
 
-### Option 1: Quick Start (Recommended)
+### Option 1: Windows Installer (Recommended for End Users)
 
-1. Download the latest release from [releases/v2.0.0/](releases/v2.0.0/)
-2. Extract the files:
+1. Download `Tushar-2.0.0-Installer.exe` from [releases/installer/](releases/installer/)
+2. Run the installer and follow the setup wizard
+3. AutoHotkey v2 will be required (installer will prompt)
+4. Launch Tushar from the Start Menu or desktop shortcut
+
+**See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for detailed instructions.**
+
+### Option 2: Portable (No Installation Required)
+
+1. Download from [releases/v2.0.0/](releases/v2.0.0/):
    - `tushar.exe` - Main CLI tool
-   - `tushar_launcher.ahk` - AutoHotkey launcher with keyboard shortcuts
+   - `tushar_launcher.ahk` - AutoHotkey launcher
 
-3. Install [AutoHotkey v2](https://www.autohotkey.com/) (required once for keyboard shortcuts)
+2. Install [AutoHotkey v2](https://www.autohotkey.com/) (one-time)
 
-4. Double-click `tushar_launcher.ahk` to start
+3. Double-click `tushar_launcher.ahk` to start
 
-### Option 2: Build from Source
+### Option 3: Build from Source
 
 **Prerequisites:**
 - [Rust](https://www.rust-lang.org/tools/install) (latest stable)
@@ -95,14 +103,34 @@ tushar/
 
 ## Building Distribution Package
 
-To create a portable distribution:
+### Portable Binary
+
+To create a standalone executable:
 
 ```bash
 cd src-tauri
 cargo build --release
 ```
 
-The `target/release/tushar.exe` is fully portable and requires no installation.
+Output: `target/release/tushar.exe` (fully portable, ready to distribute)
+
+### Windows Installer
+
+To build the Windows installer (requires [Inno Setup](https://jrsoftware.org/isdl.php)):
+
+```bash
+# 1. Build the Rust binary
+cd src-tauri
+cargo build --release
+cd ..
+
+# 2. Compile installer with Inno Setup
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" tushar_installer.iss
+```
+
+Output: `releases/installer/Tushar-2.0.0-Installer.exe`
+
+See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for detailed build instructions.
 
 ## Technical Details
 
